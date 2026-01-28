@@ -1,0 +1,37 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.9' // Note: Ensure this matches current Jan 2026 stable Boot version
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.springAI'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+		maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Use the Ollama starter - the version is managed by the BOM below
+	implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		// Use 1.0.0-M6 for maximum compatibility with Spring Boot 3.x
+		// 2.0.0-M2 is highly experimental and likely causing your Retry package error
+		mavenBom "org.springframework.ai:spring-ai-bom:1.0.0-M6"
+	}
+}
